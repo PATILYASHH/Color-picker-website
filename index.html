@@ -9,30 +9,21 @@
 <body>
     <div class="color-picker-container">
         <h1>Custom Color Picker</h1>
-        <div class="color-preview" id="colorPreview"></div>
-        <div class="color-inputs">
-            <div class="slider-container">
-                <label for="redRange">R</label>
-                <input type="range" id="redRange" min="0" max="255" value="255">
-                <input type="number" id="redValue" min="0" max="255" value="255">
-            </div>
-            <div class="slider-container">
-                <label for="greenRange">G</label>
-                <input type="range" id="greenRange" min="0" max="255" value="0">
-                <input type="number" id="greenValue" min="0" max="255" value="0">
-            </div>
-            <div class="slider-container">
-                <label for="blueRange">B</label>
-                <input type="range" id="blueRange" min="0" max="255" value="0">
-                <input type="number" id="blueValue" min="0" max="255" value="0">
-            </div>
-            <div class="hex-container">
-                <label for="hexValue">HEX</label>
-                <input type="text" id="hexValue" value="#ff0000">
+        <div class="color-square" id="colorSquare"></div>
+        <div class="color-display">
+            <div class="color-preview" id="colorPreview"></div>
+            <div class="color-values">
+                <div class="color-value">
+                    <label for="rgbValue">RGB:</label>
+                    <input type="text" id="rgbValue" readonly>
+                </div>
+                <div class="color-value">
+                    <label for="hexValue">HEX:</label>
+                    <input type="text" id="hexValue" readonly>
+                </div>
+                <button id="copyHex" class="btn">Copy HEX</button>
             </div>
         </div>
-        <button id="saveColor" class="btn">Save Color</button>
-        <div id="colorList"></div>
     </div>
     <script src="scripts.js"></script>
 </body>
