@@ -1,62 +1,80 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const colorSquare = document.getElementById('colorSquare');
-    const colorPreview = document.getElementById('colorPreview');
-    const rgbValue = document.getElementById('rgbValue');
+    const redRange = document.getElementById('redRange');
+    const greenRange = document.getElementById('greenRange');
+    const blueRange = document.getElementById('blueRange');
+    const redValue = document.getElementById('redValue');
+    const greenValue = document.getElementById('greenValue');
+    const blueValue = document.getElementById('blueValue');
     const hexValue = document.getElementById('hexValue');
-    const copyHex = document.getElementById('copyHex');
+    const colorPreview = document.getElementById('colorPreview');
+    const saveColor = document.getElementById('saveColor');
+    const colorList = document.getElementById('colorList');
 
-    const updateColorDisplay = (r, g, b) => {
-        const color = `rgb(${r}, ${g}, ${b})`;
-        const hex = rgbToHex(r, g, b);
+    const updateColorDisplay = () => {
+        const red = redRange.value;
+        const green = greenRange.value;
+        const blue = blueRange.value;
+        const color = `rgb(${red}, ${green}, ${blue})`;
+        const hex = rgbToHex(parseInt(red), parseInt(green), parseInt(blue));
 
         colorPreview.style.backgroundColor = color;
-        rgbValue.value = color;
+        redValue.value = red;
+        greenValue.value = green;
+        blueValue.value = blue;
         hexValue.value = hex;
     };
 
     const rgbToHex = (r, g, b) => {
         const componentToHex = c => {
             const hex = c.toString(16);
-            return hex.length === 1 ? "0" + hex : hex;
+            return hex.length == 1 ? "0" + hex : hex;
         };
         return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
     };
 
-    colorSquare.addEventListener('mousemove', (e) => {
-        if (e.buttons === 1) {  // Only update on mouse click
-            const rect = e.target.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+    const hexToRgb = (hex) => {
+        const bigint = parseInt(hex.slice(1), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return [r, g, b];
+    };
 
-            const width = colorSquare.clientWidth;
-            const height = colorSquare.clientHeight;
+    redRange.addEventListener('input', updateColorDisplay);
+    greenRange.addEventListener('input', updateColorDisplay);
+    blueRange.addEventListener('input', updateColorDisplay);
 
-            const r = Math.round((x / width) * 255);
-            const g = Math.round(((height - y) / height) * 255);
-            const b = Math.round((y / height) * 255);
-
-            updateColorDisplay(r, g, b);
-        }
+    redValue.addEventListener('input', () => {
+        redRange.value = redValue.value;
+        updateColorDisplay();
     });
 
-    colorSquare.addEventListener('click', (e) => {
-        const rect = e.target.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const width = colorSquare.clientWidth;
-        const height = colorSquare.clientHeight;
-
-        const r = Math.round((x / width) * 255);
-        const g = Math.round(((height - y) / height) * 255);
-        const b = Math.round((y / height) * 255);
-
-        updateColorDisplay(r, g, b);
+    greenValue.addEventListener('input', () => {
+        greenRange.value = greenValue.value;
+        updateColorDisplay();
     });
 
-    copyHex.addEventListener('click', () => {
-        hexValue.select();
-        document.execCommand('copy');
-        alert('HEX value copied to clipboard!');
+    blueValue.addEventListener('input', () => {
+        blueRange.value = blueValue.value;
+        updateColorDisplay();
     });
+
+    hexValue.addEventListener('input', () => {
+        const [r, g, b] = hexToRgb(hexValue.value);
+        redRange.value = r;
+        greenRange.value = g;
+        blueRange.value = b;
+        updateColorDisplay();
+    });
+
+    saveColor.addEventListener('click', () => {
+        const color = hexValue.value;
+        const colorBlock = document.createElement('div');
+        colorBlock.className = 'color-block';
+        colorBlock.style.backgroundColor = color;
+        colorList.appendChild(colorBlock);
+    });
+
+    // Initial update to set the color display to the initial slider values
+    updateColorDisplay();
 });
