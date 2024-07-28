@@ -22,25 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
     };
 
-    const getColorFromPosition = (x, y) => {
-        const width = colorSquare.clientWidth;
-        const height = colorSquare.clientHeight;
-
-        // Calculate the RGB values based on the position
-        const r = Math.round((x / width) * 255);
-        const g = Math.round(((height - y) / height) * 255);
-        const b = Math.round((y / height) * 255);
-
-        return [r, g, b];
-    };
-
     colorSquare.addEventListener('mousemove', (e) => {
         if (e.buttons === 1) {  // Only update on mouse click
             const rect = e.target.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            const [r, g, b] = getColorFromPosition(x, y);
+            const width = colorSquare.clientWidth;
+            const height = colorSquare.clientHeight;
+
+            const r = Math.round((x / width) * 255);
+            const g = Math.round(((height - y) / height) * 255);
+            const b = Math.round((y / height) * 255);
+
             updateColorDisplay(r, g, b);
         }
     });
@@ -50,7 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const [r, g, b] = getColorFromPosition(x, y);
+        const width = colorSquare.clientWidth;
+        const height = colorSquare.clientHeight;
+
+        const r = Math.round((x / width) * 255);
+        const g = Math.round(((height - y) / height) * 255);
+        const b = Math.round((y / height) * 255);
+
         updateColorDisplay(r, g, b);
     });
 
