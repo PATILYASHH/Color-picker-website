@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hex = rgbToHex(parseInt(red), parseInt(green), parseInt(blue));
 
         colorPreview.style.backgroundColor = color;
+        document.body.style.backgroundColor = color;
         redValue.value = red;
         greenValue.value = green;
         blueValue.value = blue;
