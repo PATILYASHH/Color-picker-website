@@ -1,20 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const colorInput = document.getElementById('colorInput');
-    const selectedColor = document.getElementById('selectedColor');
+    const redRange = document.getElementById('redRange');
+    const greenRange = document.getElementById('greenRange');
+    const blueRange = document.getElementById('blueRange');
+    const redValue = document.getElementById('redValue');
+    const greenValue = document.getElementById('greenValue');
+    const blueValue = document.getElementById('blueValue');
+    const colorDisplay = document.getElementById('colorDisplay');
     const saveColor = document.getElementById('saveColor');
     const colorList = document.getElementById('colorList');
 
-    // Update the selected color text
-    colorInput.addEventListener('input', (event) => {
-        selectedColor.textContent = event.target.value;
-    });
+    const updateColorDisplay = () => {
+        const red = redRange.value;
+        const green = greenRange.value;
+        const blue = blueRange.value;
+        const color = `rgb(${red}, ${green}, ${blue})`;
+        colorDisplay.style.backgroundColor = color;
+        redValue.textContent = red;
+        greenValue.textContent = green;
+        blueValue.textContent = blue;
+    };
 
-    // Save the selected color
+    redRange.addEventListener('input', updateColorDisplay);
+    greenRange.addEventListener('input', updateColorDisplay);
+    blueRange.addEventListener('input', updateColorDisplay);
+
     saveColor.addEventListener('click', () => {
-        const colorValue = colorInput.value;
+        const red = redRange.value;
+        const green = greenRange.value;
+        const blue = blueRange.value;
+        const color = `rgb(${red}, ${green}, ${blue})`;
         const colorBlock = document.createElement('div');
         colorBlock.className = 'color-block';
-        colorBlock.style.backgroundColor = colorValue;
+        colorBlock.style.backgroundColor = color;
         colorList.appendChild(colorBlock);
     });
+
+    // Initial update to set the color display to the initial slider values
+    updateColorDisplay();
 });
