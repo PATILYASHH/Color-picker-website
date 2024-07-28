@@ -40,9 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return [r, g, b];
     };
 
-    redRange.addEventListener('input', updateColorDisplay);
-    greenRange.addEventListener('input', updateColorDisplay);
-    blueRange.addEventListener('input', updateColorDisplay);
+    redRange.addEventListener('input', () => {
+        redValue.value = redRange.value;
+        updateColorDisplay();
+    });
+
+    greenRange.addEventListener('input', () => {
+        greenValue.value = greenRange.value;
+        updateColorDisplay();
+    });
+
+    blueRange.addEventListener('input', () => {
+        blueValue.value = blueRange.value;
+        updateColorDisplay();
+    });
 
     redValue.addEventListener('input', () => {
         redRange.value = redValue.value;
@@ -60,11 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     hexValue.addEventListener('input', () => {
-        const [r, g, b] = hexToRgb(hexValue.value);
-        redRange.value = r;
-        greenRange.value = g;
-        blueRange.value = b;
-        updateColorDisplay();
+        if (hexValue.value.length === 7) {
+            const [r, g, b] = hexToRgb(hexValue.value);
+            redRange.value = r;
+            greenRange.value = g;
+            blueRange.value = b;
+            updateColorDisplay();
+        }
     });
 
     saveColor.addEventListener('click', () => {
